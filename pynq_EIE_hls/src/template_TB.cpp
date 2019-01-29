@@ -2,9 +2,7 @@
 #include <ap_int.h>
 #include <cassert>
 #include <iostream>
-//#include "myfile.h"
 
-//#include "opencv2/opencv.hpp"
 #include <hls_opencv.h>
 
 typedef ap_uint<8> pixel_type;
@@ -25,10 +23,9 @@ void template_filter(volatile uint32_t* in_data, volatile uint32_t* out_data, in
 
 
 int main() {
-
-
-	//cv::Mat src_hls = cv::imread("/home/alk15/pynq19/old_ref/checkboard.jpg", CV_LOAD_IMAGE_UNCHANGED);
-	cv::Mat src_hls = cv::imread("/home/alk15/pynq19/PYNQ_v25/multi.jpg", CV_LOAD_IMAGE_UNCHANGED);
+	
+	//Specify Input Image Absolute Path
+	cv::Mat src_hls = cv::imread("/abs-path-to-file/filename.jpg", CV_LOAD_IMAGE_UNCHANGED);
 	std::cout << "Image type: " << src_hls.type() << ", no. of channels: " << src_hls.channels() << std::endl;
 	//src_hls.convertTo(src_hls, CV_8UC3);
 	//cv::cvtColor(src_hls, src_hls, CV_BGR2RGBA);
@@ -37,9 +34,11 @@ int main() {
 	std::cout<<"SIZE  "<<src_hls.size()<<std::endl;
 	uchar *data_p = src_hls.data;
 
+	//Make sure that these much input image resolution
 	int w = 1920;
 	int h = 1080;
-	int parameter_1 = 0;
+	
+	int parameter_1 = 0; //currently unused
 
 	uchar *image = (uchar *)malloc(w*h*4);
 
@@ -58,7 +57,8 @@ int main() {
 		data_p[3*i + 0] = image[4*i + 2];
 	}
 
-	cv::imwrite("/home/alk15/pynq19/PYNQ_v25/output.jpg",src_hls);
+	//Specify an Absolute Path for Storing Output Image
+	cv::imwrite("/abs-path-to-file/filename.jpg",src_hls);
 
 	free(image);
 
